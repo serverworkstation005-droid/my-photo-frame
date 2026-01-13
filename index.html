@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Frame Art</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-color: #2d3748;
+        }
+
+        body {
+            /* মেইন ফন্ট 'Baloo Da 2' */
+            font-family: 'Baloo Da 2', cursive;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: var(--text-color);
+        }
+
+        /* ব্যাকগ্রাউন্ড অ্যানিমেশন */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 8s infinite ease-in-out;
+            opacity: 0.7;
+        }
+        .orb-1 {
+            width: 350px;
+            height: 350px;
+            background: #ff9a9e;
+            top: -10%;
+            left: -10%;
+        }
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #a18cd1;
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 40px); }
+        }
+
+        .app-container {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 440px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+
+        /* শিরোনামের জন্য স্টাইলিশ ফন্ট */
+        .header h1 {
+            font-family: 'Galada', cursive;
+            font-size: 32px; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+            margin: 0;
+            color: #4a5568;
+            line-height: 1.2;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header p {
+            font-size: 15px;
+            margin: 5px 0 25px 0;
+            color: #58687e;
+            font-weight: 500;
+        }
+
+        /* ক্যানভাস */
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            cursor: grab;
+        }
+        .canvas-wrapper:active { cursor: grabbing; }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* বাটন এবং ইনপুট ডিজাইন */
+        .btn-upload {
+            border: 2px dashed #8fa3bf;
+            background-color: rgba(255, 255, 255, 0.6);
+            color: #4a5568;
+            padding: 18px;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-sizing: border-box;
+            font-family: 'Baloo Da 2', cursive;
+        }
+
+        .btn-upload:hover {
+            border-color: #667eea;
+            color: #667eea;
+            background-color: #fff;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+        }
+
+        .select-style {
+            padding: 15px;
+            width: 100%;
+            border-radius: 15px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: #4a5568;
+            font-family: 'Baloo Da 2', cursive;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            outline: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* স্লাইডার */
+        .slider-container {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #dce3eb;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: #764ba2;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        /* ডাউনলোড বাটন */
+        .btn-download {
+            background: var(--primary-gradient);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 18px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Baloo Da 2', cursive;
+        }
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(118, 75, 162, 0.5); }
+        .btn-download:active { transform: scale(0.98); }
+
+        .hint-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+            white-space: nowrap;
+            font-family: 'Baloo Da 2', cursive;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #6c7a89;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="app-container">
+        <div class="header">
+            <h1>ফ্রেম স্টুডিও</h1>
+            <p>আপনার ছবি দিয়ে পোস্টার তৈরি করুন</p>
+        </div>
+
+        <div class="canvas-wrapper">
+            <canvas id="canvas" width="1080" height="1080"></canvas>
+            <div id="hint" class="hint-overlay">👆 ছবি টেনে পজিশন ঠিক করুন</div>
+        </div>
+
+        <select id="frameSelect" class="select-style">
+            <option value="frame1.png">🎨 ডিজাইন ১ (Frame 1)</option>
+            <option value="frame2.png">🎨 ডিজাইন ২ (Frame 2)</option>
+        </select>
+
+        <div class="upload-btn-wrapper">
+            <button class="btn-upload">
+                <i class="fas fa-camera"></i> <span id="uploadText">ছবি আপলোড করুন</span>
+            </button>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+
+        <div class="slider-container">
+            <i class="fas fa-search-minus" style="color: #764ba2;"></i>
+            <input type="range" id="scaleSlider" min="0.5" max="3" step="0.05" value="1">
+            <i class="fas fa-search-plus" style="color: #764ba2;"></i>
+        </div>
+
+        <button class="btn-download" onclick="downloadImage()">
+            <i class="fas fa-download"></i> ফ্রেম ডাউনলোড করুন
+        </button>
+
+        <div class="footer">
+            © Design By Fahim Ahmed | All Rights Reserved <br>
+            WhatsApp: +8801911759260
+        </div>
+    </div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const frameSelect = document.getElementById('frameSelect');
+    const scaleSlider = document.getElementById('scaleSlider');
+    const hint = document.getElementById('hint');
+    const uploadText = document.getElementById('uploadText');
+
+    let frameImg = new Image();
+    let userImg = new Image();
+    let uploaded = false;
+    let scale = 1;
+    let offsetX = 0, offsetY = 0;
+    let lastX, lastY;
+    let isDragging = false;
+
+    frameImg.src = frameSelect.value;
+    frameImg.onload = draw;
+
+    frameSelect.addEventListener('change', function() {
+        frameImg.src = this.value;
+        frameImg.onload = draw;
+    });
+
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+        if(e.target.files && e.target.files[0]){
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                userImg = new Image();
+                userImg.onload = function() {
+                    uploaded = true;
+                    scale = 1;
+                    scaleSlider.value = 1;
+                    offsetX = 0; offsetY = 0;
+                    uploadText.innerText = "ছবি পরিবর্তন করুন";
+                    hint.style.opacity = 1;
+                    setTimeout(() => hint.style.opacity = 0, 3500);
+                    draw();
+                }
+                userImg.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+    scaleSlider.addEventListener('input', function() {
+        scale = parseFloat(this.value);
+        draw();
+    });
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (uploaded) {
+            ctx.save();
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            ctx.translate(cx + offsetX, cy + offsetY);
+            ctx.scale(scale, scale);
+            ctx.drawImage(userImg, -userImg.width / 2, -userImg.height / 2);
+            ctx.restore();
+        }
+        ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
+    }
+
+    function downloadImage() {
+        if(!uploaded && !confirm("ছবি আপলোড ছাড়াই ডাউনলোড করবেন?")) return;
+        const link = document.createElement('a');
+        link.download = `frame_design_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+    }
+
+    // Drag Logic
+    const getPos = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const factor = canvas.width / rect.width;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX, y: clientY, factor: factor };
+    };
+
+    const startDrag = (e) => {
+        if (!uploaded) return;
+        isDragging = true;
+        const pos = getPos(e);
+        lastX = pos.x; lastY = pos.y;
+    };
+
+    const onDrag = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        const dx = (pos.x - lastX) * pos.factor;
+        const dy = (pos.y - lastY) * pos.factor;
+        offsetX += dx; offsetY += dy;
+        lastX = pos.x; lastY = pos.y;
+        draw();
+    };
+
+    const stopDrag = () => isDragging = false;
+
+    canvas.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', onDrag);
+    window.addEventListener('mouseup', stopDrag);
+    canvas.addEventListener('touchstart', startDrag, {passive: false});
+    window.addEventListener('touchmove', onDrag, {passive: false});
+    window.addEventListener('touchend', stopDrag);
+
+</script>
+</body>
+</html>
